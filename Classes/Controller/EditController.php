@@ -56,6 +56,7 @@ class EditController extends \In2code\Femanager\Controller\EditController
      */
     public function initializeUpdateAction()
     {
+        parent::initializeUpdateAction();
         if ($this->arguments->hasArgument('user')) {
             /** @var \Derhansen\FemanagerDmailSubscribe\Xclass\Extbase\Controller\Argument $user */
             $user = $this->arguments['user'];
