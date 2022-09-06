@@ -14,9 +14,9 @@ $EM_CONF[$_EXTKEY] = array(
     'version' => '2.1.3',
     'constraints' => array(
         'depends' => array(
-            'typo3' => '7.6.0-8.7.99',
-            'femanager' => '2.0.0-0.0.0',
-            'direct_mail' => '5.0.0-0.0.0'
+            'typo3' => '11.5.0-11.5.99',
+            'femanager' => '7.0.0',
+            'direct_mail' => ''
         ),
         'conflicts' => array(),
         'suggests' => array(),
