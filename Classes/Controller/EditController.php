@@ -15,6 +15,7 @@ namespace Derhansen\FemanagerDmailSubscribe\Controller;
  */
 
 use Derhansen\FemanagerDmailSubscribe\Domain\Repository\DmailCategoryRepository;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class EditController
@@ -44,11 +45,11 @@ class EditController extends \In2code\Femanager\Controller\EditController
      *
      * @return void
      */
-    public function editAction()
+    public function editAction(): ResponseInterface
     {
         $dmailCategories = $this->dmailCategoryRepository->findAll();
         $this->view->assign('dmailCategories', $dmailCategories);
-        parent::editAction();
+        return parent::editAction();
     }
 
     /**
@@ -67,9 +68,10 @@ class EditController extends \In2code\Femanager\Controller\EditController
     /**
      * action update
      *
-     * @param \In2code\Femanager\Domain\Model\User $user
-     * @validate $user In2code\Femanager\Domain\Validator\ServersideValidator
-     * @validate $user In2code\Femanager\Domain\Validator\PasswordValidator
+     * @param \Derhansen\FemanagerDmailSubscribe\Domain\Model\User $user
+     * @TYPO3\CMS\Extbase\Annotation\Validate("In2code\Femanager\Domain\Validator\ServersideValidator", param="user")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("In2code\Femanager\Domain\Validator\PasswordValidator", param="user")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("In2code\Femanager\Domain\Validator\CaptchaValidator", param="user")
      * @return void
      */
     public function updateAction(\In2code\Femanager\Domain\Model\User $user)

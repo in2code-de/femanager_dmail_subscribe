@@ -15,6 +15,14 @@ namespace Derhansen\FemanagerDmailSubscribe\Controller;
  */
 
 use Derhansen\FemanagerDmailSubscribe\Domain\Repository\DmailCategoryRepository;
+use In2code\Femanager\Domain\Repository\UserGroupRepository;
+use In2code\Femanager\Domain\Repository\UserRepository;
+use In2code\Femanager\Domain\Service\SendMailService;
+use In2code\Femanager\Finisher\FinisherRunner;
+use In2code\Femanager\Utility\LogUtility;
+use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class NewController
@@ -28,15 +36,18 @@ class NewController extends \In2code\Femanager\Controller\NewController
      */
     protected $dmailCategoryRepository;
 
-    /**
-     * DI for dmailCategoryRepository
-     *
-     * @param DmailCategoryRepository $dmailCategoryRepository
-     * @return void
-     */
-    public function injectDmailCategoryRespository(DmailCategoryRepository $dmailCategoryRepository)
-    {
+    public function __construct(
+        UserRepository $userRepository,
+        UserGroupRepository $userGroupRepository,
+        PersistenceManager $persistenceManager,
+        SendMailService $sendMailService,
+        FinisherRunner $finisherRunner,
+        LogUtility $logUtility,
+        DmailCategoryRepository $dmailCategoryRepository
+    ) {
         $this->dmailCategoryRepository = $dmailCategoryRepository;
+        parent::__construct($userRepository, $userGroupRepository, $persistenceManager, $sendMailService,
+            $finisherRunner, $logUtility);
     }
 
     /**
@@ -55,14 +66,14 @@ class NewController extends \In2code\Femanager\Controller\NewController
      * New action
      *
      * @param \In2code\Femanager\Domain\Model\User $user
-     * @dontvalidate $user
+     * @TYPO3\CMS\Extbase\Annotation\IgnoreValidation("user")
      * @return void
      */
-    public function newAction(\In2code\Femanager\Domain\Model\User $user = null)
+    public function newAction(\In2code\Femanager\Domain\Model\User $user = null): ResponseInterface
     {
         $dmailCategories = $this->dmailCategoryRepository->findAll();
         $this->view->assign('dmailCategories', $dmailCategories);
-        parent::newAction();
+        return parent::newAction();
     }
 
     /**
@@ -81,9 +92,9 @@ class NewController extends \In2code\Femanager\Controller\NewController
      * Create action
      *
      * @param \In2code\Femanager\Domain\Model\User $user
-     * @validate $user In2code\Femanager\Domain\Validator\ServersideValidator
-     * @validate $user In2code\Femanager\Domain\Validator\PasswordValidator
-     * @validate $user In2code\Femanager\Domain\Validator\CaptchaValidator
+     * @TYPO3\CMS\Extbase\Annotation\Validate("In2code\Femanager\Domain\Validator\ServersideValidator", param="user")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("In2code\Femanager\Domain\Validator\PasswordValidator", param="user")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("In2code\Femanager\Domain\Validator\CaptchaValidator", param="user")
      * @return void
      */
     public function createAction(\In2code\Femanager\Domain\Model\User $user)
