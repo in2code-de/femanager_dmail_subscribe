@@ -14,10 +14,20 @@ namespace Derhansen\FemanagerDmailSubscribe\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+
 /**
  * Class DmailCategoryRepository
  */
 class DmailCategoryRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-
+    public function initializeObject()
+    {
+        /** @var QuerySettingsInterface $querySettings */
+        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
+        $querySettings->setRespectStoragePage(false);
+        $this->setDefaultQuerySettings($querySettings);
+    }
 }
