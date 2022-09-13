@@ -25,7 +25,7 @@ class User extends \In2code\Femanager\Domain\Model\User
     protected $moduleSysDmailNewsletter = false;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Derhansen\FemanagerDmailSubscribe\Domain\Model\DmailCategory>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Derhansen\FemanagerDmailSubscribe\Domain\Model\DmailCategory>
      */
     protected $moduleSysDmailCategory = null;
 
